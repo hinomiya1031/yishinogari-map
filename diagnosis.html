@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>弥生人適性診断</title>
+
+<style>
+body{
+    font-family: sans-serif;
+    background-color:#f5efe0;
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.question{
+    margin-bottom:30px;
+    padding:15px;
+    background:white;
+    border-radius:10px;
+}
+
+label{
+    display:block;
+    margin:8px 0;
+}
+
+button{
+    font-size:18px;
+    padding:10px 20px;
+    margin-top:20px;
+}
+
+#result{
+    margin-top:30px;
+    padding:20px;
+    background:#fff8dc;
+    border-radius:10px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🏺弥生人適性診断🏺</h1>
+<p>あなたが吉野ヶ里にいたら、どんな役割？</p>
+
+<div class="question">
+<h2>Q1. 集落の外で何やら怪しい気配。あなたはどうする？</h2>
+
+<label><input type="radio" name="q1" data-watch="3" data-king="1" data-craft="0" data-priest="-1" data-trade="0"> 高い場所に登って周囲を確認する</label>
+<label><input type="radio" name="q1" data-watch="1" data-king="3" data-craft="0" data-priest="0" data-trade="1"> みんなに声をかけて状況を共有する</label>
+<label><input type="radio" name="q1" data-watch="0" data-king="1" data-craft="3" data-priest="0" data-trade="0"> まずは落ち着いて、何が起きているか考える</label>
+<label><input type="radio" name="q1" data-watch="-1" data-king="0" data-craft="0" data-priest="3" data-trade="1"> これは何かのしるしかも……と感じる</label>
+<label><input type="radio" name="q1" data-watch="0" data-king="1" data-craft="1" data-priest="0" data-trade="3"> 外の人と話して情報を集める</label>
+</div>
+
+<div class="question">
+<h2>Q2. お祭りの準備をすることになりました。あなたが担当したいのは？</h2>
+
+<label><input type="radio" name="q2" data-watch="3" data-king="1" data-craft="0" data-priest="0" data-trade="0"> 会場全体の安全確認</label>
+<label><input type="radio" name="q2" data-watch="0" data-king="3" data-craft="0" data-priest="1" data-trade="1"> 祭りの流れを考えて、みんなに指示を出す</label>
+<label><input type="radio" name="q2" data-watch="0" data-king="0" data-craft="3" data-priest="1" data-trade="0"> 土器や飾りを作る</label>
+<label><input type="radio" name="q2" data-watch="-1" data-king="1" data-craft="0" data-priest="3" data-trade="0"> 祈りや儀式の準備をする</label>
+<label><input type="radio" name="q2" data-watch="0" data-king="1" data-craft="0" data-priest="0" data-trade="3"> 他の集落から来た人を案内する</label>
+</div>
+
+<div class="question">
+<h2>Q3. 遠くの村から珍しい品物が届きました。あなたは？</h2>
+
+<label><input type="radio" name="q3" data-watch="3" data-king="1" data-craft="0" data-priest="0" data-trade="0"> 危険なものではないか確かめる</label>
+<label><input type="radio" name="q3" data-watch="0" data-king="3" data-craft="0" data-priest="0" data-trade="1"> 村にとって役立つか考える</label>
+<label><input type="radio" name="q3" data-watch="0" data-king="0" data-craft="3" data-priest="0" data-trade="1"> どう作られているのか観察する</label>
+<label><input type="radio" name="q3" data-watch="-1" data-king="0" data-craft="0" data-priest="3" data-trade="1"> 特別な力が宿っていそうだと感じる</label>
+<label><input type="radio" name="q3" data-watch="0" data-king="0" data-craft="1" data-priest="0" data-trade="3"> どこから来たのか、誰が持ってきたのか聞きたい</label>
+</div>
+
+<div class="question">
+<h2>Q4. あなたが集落で一番大事にしたいことは？</h2>
+
+<label><input type="radio" name="q4" data-watch="3" data-king="1" data-craft="0" data-priest="0" data-trade="0"> みんなが安心して暮らせること</label>
+<label><input type="radio" name="q4" data-watch="0" data-king="3" data-craft="0" data-priest="1" data-trade="0"> 集落全体がうまくまとまること</label>
+<label><input type="radio" name="q4" data-watch="0" data-king="0" data-craft="3" data-priest="0" data-trade="0"> 毎日の暮らしを豊かにすること</label>
+<label><input type="radio" name="q4" data-watch="-1" data-king="0" data-craft="0" data-priest="3" data-trade="0"> 神や自然とつながること</label>
+<label><input type="radio" name="q4" data-watch="0" data-king="0" data-craft="0" data-priest="0" data-trade="3"> 外の世界とつながること</label>
+</div>
+
+<button onclick="diagnose()">診断する！</button>
+
+<div id="result"></div>
+
+<script>
+function diagnose(){
+
+  let scores = {
+    watch:0,
+    priest:0,
+    craft:0,
+    trade:0,
+    king:0
+  };
+
+  for(let i=1; i<=4; i++){
+    let answer = document.querySelector(`input[name="q${i}"]:checked`);
+
+    if(!answer){
+      alert("すべての質問に回答してください！");
+      return;
+    }
+
+    scores.watch += Number(answer.dataset.watch);
+    scores.priest += Number(answer.dataset.priest);
+    scores.craft += Number(answer.dataset.craft);
+    scores.trade += Number(answer.dataset.trade);
+    scores.king += Number(answer.dataset.king);
+  }
+
+  let result = Object.keys(scores).reduce((a,b) =>
+    scores[a] > scores[b] ? a : b
+  );
+
+  let text = "";
+
+  if(result === "watch"){
+    text = `
+      <h2>① 見張り兵タイプ</h2>
+      <p>周りをよく見て、危険を察知するのが得意。集落の安全を守る責任感タイプ。</p>
+      <p><strong>おすすめルート：</strong>物見櫓 → 環濠 → 南内郭</p>
+    `;
+  }
+
+  if(result === "priest"){
+    text = `
+      <h2>② 巫女タイプ</h2>
+      <p>直感が鋭く、場の空気を読むのが得意。祈りや祭祀を通して人々を支えるタイプ。</p>
+      <p><strong>おすすめルート：</strong>北内郭 → 祭祀エリア → 北墳丘墓</p>
+    `;
+  }
+
+  if(result === "craft"){
+    text = `
+      <h2>③ 土器職人タイプ</h2>
+      <p>コツコツ作ることが好きなものづくりタイプ。生活を支える道具づくりの才能あり。</p>
+      <p><strong>おすすめルート：</strong>竪穴住居 → 倉庫群 → 展示室</p>
+    `;
+  }
+
+  if(result === "trade"){
+    text = `
+      <h2>④ 交易商人タイプ</h2>
+      <p>好奇心旺盛で、人との交流が得意。遠くの村ともつながる情報通タイプ。</p>
+      <p><strong>おすすめルート：</strong>市の広場 → 展示室 → 交易に関する出土品</p>
+    `;
+  }
+
+  if(result === "king"){
+    text = `
+      <h2>⑤ 王の側近タイプ</h2>
+      <p>全体を見て判断できる参謀タイプ。村の未来を考え、重要な決定を支える存在。</p>
+      <p><strong>おすすめルート：</strong>北内郭 → 王の家 → 北墳丘墓</p>
+    `;
+  }
+
+  let scoreText = `
+    <hr>
+    <h3>内部スコア</h3>
+    <p>見張り兵：${scores.watch}</p>
+    <p>巫女：${scores.priest}</p>
+    <p>土器職人：${scores.craft}</p>
+    <p>交易商人：${scores.trade}</p>
+    <p>王の側近：${scores.king}</p>
+  `;
+
+  document.getElementById("result").innerHTML = text + scoreText;
+}
+</script>
+
+</body>
+</html>
